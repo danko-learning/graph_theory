@@ -27,6 +27,14 @@ public class UndirectedGraph extends Graph{
 
         if (this.isNormal) {
             this.graph = new HashMap<>(graph);
+
+            for (String key : this.graph.keySet()) {
+                for (String edge : this.graph.get(key)) {
+                    if (!this.graph.get(edge).contains(key)) {
+                        this.graph.get(edge).add(key);
+                    }
+                }
+            }
         }
     }
 
@@ -47,6 +55,13 @@ public class UndirectedGraph extends Graph{
 
                 if (!err) {
                     this.graph.put(name, edges);
+
+                    for (String edge : edges) {
+                        if (!this.graph.get(edge).contains(name))
+                        {
+                            this.graph.get(edge).add(name);
+                        }
+                    }
                 }
             }
             else {
@@ -97,6 +112,7 @@ public class UndirectedGraph extends Graph{
             if (this.graph.containsKey(vertex)) {
                 if (this.graph.containsKey(edge)) {
                     this.graph.get(vertex).add(edge);
+                    this.graph.get(edge).add(vertex);
                 } else {
                     System.out.println("Попытка создать связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
                 }
@@ -113,6 +129,7 @@ public class UndirectedGraph extends Graph{
         if (this.graph.containsKey(vertex)) {
             try {
                 this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
+                this.graph.get(edge).remove(this.graph.get(edge).indexOf(vertex));
             } catch(IndexOutOfBoundsException iOOBE) {
                 System.out.println(iOOBE.getMessage());
             }
