@@ -10,6 +10,18 @@ public class UndirectedGraph extends Graph{
         setGraph(graph);
     }
 
+    public UndirectedGraph(UndirectedGraph uGraph) {
+        if (uGraph.getStatus()) {
+            this.graph = new HashMap<>(uGraph.getGraph());
+        } else {
+            System.out.println("Переданный вами в конструктор граф был некорректно создан, пресоздайте его!");
+        }
+    }
+
+    public boolean getStatus() {
+        return this.isNormal;
+    }
+
     @Override
     public void setGraph(HashMap<String, List<String>> graph) {
         for (String key : graph.keySet()) {
@@ -94,7 +106,7 @@ public class UndirectedGraph extends Graph{
     }
     @Override
     public Vertex getVertex(String name) {
-        if (isNormal) {
+        if (this.isNormal) {
             if (this.graph.containsKey(name)) {
                 return new Vertex(name, this.graph.get(name));
             } else {
@@ -108,7 +120,7 @@ public class UndirectedGraph extends Graph{
 
     @Override
     public void addEdge(String vertex, String edge) {
-        if (isNormal) {
+        if (this.isNormal) {
             if (this.graph.containsKey(vertex)) {
                 if (this.graph.containsKey(edge)) {
                     this.graph.get(vertex).add(edge);
@@ -125,16 +137,20 @@ public class UndirectedGraph extends Graph{
     }
     @Override
     public void delEdge(String vertex, String edge) {
-
-        if (this.graph.containsKey(vertex)) {
-            try {
-                this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
-                this.graph.get(edge).remove(this.graph.get(edge).indexOf(vertex));
-            } catch(IndexOutOfBoundsException iOOBE) {
-                System.out.println(iOOBE.getMessage());
+        if (this.isNormal) {
+            if (this.graph.containsKey(vertex)) {
+                if (this.graph.containsKey(edge)) {
+                    this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
+                    this.graph.get(edge).remove(this.graph.get(edge).indexOf(vertex));
+                } else {
+                    System.out.println("Попытка удалить связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
+                }
+            } else {
+                System.out.println("В графе нет вершины: " + vertex + "!");
             }
         } else {
-            throw new IllegalArgumentException("В графе нет такой вершины!");
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
+
     }
 }
