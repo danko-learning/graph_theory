@@ -11,6 +11,8 @@ public abstract class Graph {
     protected boolean isNormal = true;
     protected HashMap<String, List<String>> graph;
 
+
+
     public abstract void setGraph(HashMap<String, List<String>> graph);
     public HashMap<String, List<String>> getGraph() {
         return new HashMap<String, List<String>>(this.graph);
