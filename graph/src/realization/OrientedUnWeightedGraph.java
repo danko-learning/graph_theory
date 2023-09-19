@@ -4,13 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class OrientedUnWeightedGraph extends DirecredGraph{
+
+    public OrientedUnWeightedGraph() {
+        this.graph = new HashMap<>();
+    }
     public OrientedUnWeightedGraph(HashMap<String, List<String>> graph){
         setGraph(graph);
     }
-
-    public OrientedUnWeightedGraph(UndirectedGraph uGraph) {
-        if (uGraph.getStatus()) {
-            this.graph = new HashMap<>(uGraph.getGraph());
+    public OrientedUnWeightedGraph(UndirectedGraph oUGraph) {
+        if (oUGraph.getStatus()) {
+            this.graph = new HashMap<>(oUGraph.getGraph());
         } else {
             System.out.println("Переданный вами в конструктор граф был некорректно создан, пресоздайте его!");
         }

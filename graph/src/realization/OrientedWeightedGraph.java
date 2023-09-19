@@ -5,13 +5,15 @@ import java.util.List;
 
 public class OrientedWeightedGraph extends DirecredGraph{
 
+    public OrientedWeightedGraph() {
+        this.graph = new HashMap<>();
+    }
     public OrientedWeightedGraph(HashMap<String, List<String>> graph) {
         setGraph(graph);
     }
-
-    public OrientedWeightedGraph(OrientedWeightedGraph oUGraph) {
-        if (oUGraph.getStatus()) {
-            this.graph = new HashMap<>(oUGraph.getGraph());
+    public OrientedWeightedGraph(OrientedWeightedGraph oWGraph) {
+        if (oWGraph.getStatus()) {
+            this.graph = new HashMap<>(oWGraph.getGraph());
         } else {
             System.out.println("Переданный вами в конструктор граф был некорректно создан, пресоздайте его!");
         }

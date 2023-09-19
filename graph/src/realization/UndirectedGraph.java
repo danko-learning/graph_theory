@@ -6,10 +6,12 @@ import java.util.List;
 
 public class UndirectedGraph extends Graph{
 
+    public UndirectedGraph() {
+        this.graph = new HashMap<>();
+    }
     public UndirectedGraph(HashMap<String, List<String>> graph){
         setGraph(graph);
     }
-
     public UndirectedGraph(UndirectedGraph uGraph) {
         if (uGraph.getStatus()) {
             this.graph = new HashMap<>(uGraph.getGraph());
