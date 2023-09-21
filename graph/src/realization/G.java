@@ -27,46 +27,28 @@ public class G {
     public G(String type, HashMap<String, List<String>> graph) {
         if (type.equals("undirected graph")) {
             this.type = type;
+            this.uG = new UndirectedGraph(graph);
         } else if (type.equals("oriented unweighted graph")) {
             this.type = type;
+            this.oUWG = new OrientedUnWeightedGraph(graph);
         } else if (type.equals("oriented weighted graph")) {
             this.type = type;
+            this.oWG = new OrientedWeightedGraph(graph);
         } else {
             System.out.println("Такой тип графа не поддерживается!");
         }
     }
-    public G(String type) {
-        if (type.equals("undirected graph")) {
-            this.type = type;
-        } else if (type.equals("oriented unweighted graph")) {
-            this.type = type;
-        } else if (type.equals("oriented weighted graph")) {
-            this.type = type;
-        } else {
-            System.out.println("Такой тип графа не поддерживается!");
-        }
+    public G(UndirectedGraph graph) {
+        this.type = "undirected graph";
+        this.uG = new UndirectedGraph(graph.getGraph());
     }
-    public G(String type) {
-        if (type.equals("undirected graph")) {
-            this.type = type;
-        } else if (type.equals("oriented unweighted graph")) {
-            this.type = type;
-        } else if (type.equals("oriented weighted graph")) {
-            this.type = type;
-        } else {
-            System.out.println("Такой тип графа не поддерживается!");
-        }
+    public G(OrientedUnWeightedGraph graph) {
+        this.type = "oriented unweighted graph";
+        this.oUWG = new OrientedUnWeightedGraph(graph.getGraph());
     }
-    public G(String type) {
-        if (type.equals("undirected graph")) {
-            this.type = type;
-        } else if (type.equals("oriented unweighted graph")) {
-            this.type = type;
-        } else if (type.equals("oriented weighted graph")) {
-            this.type = type;
-        } else {
-            System.out.println("Такой тип графа не поддерживается!");
-        }
+    public G(OrientedWeightedGraph graph) {
+        this.type = "oriented unweighted graph";
+        this.oUWG = new OrientedUnWeightedGraph(graph.getGraph());
     }
 
 

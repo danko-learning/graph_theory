@@ -1,6 +1,6 @@
 package realization;
 
-import java.io.IOError;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +17,27 @@ public class UndirectedGraph extends Graph{
             this.graph = new HashMap<>(uGraph.getGraph());
         } else {
             System.out.println("Переданный вами в конструктор граф был некорректно создан, пресоздайте его!");
+        }
+    }
+    public UndirectedGraph(String wayToFile) {
+        this.graph = new HashMap<>();
+
+        File file = new File(wayToFile);
+        FileReader fr;
+
+        try {
+            fr = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fr);
+            String line = reader.readLine();
+            while (line != null) {
+                
+
+
+            }
+        } catch (FileNotFoundException fn){
+            System.out.println("Не получилось прочитать файл!");
+        } catch (IOException io) {
+            System.out.println("Не удалось прочитать строку");
         }
     }
 
