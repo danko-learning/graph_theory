@@ -19,12 +19,10 @@ public class OrientedWeightedGraph extends DirecredGraph{
         }
     }
 
-    public boolean getStatus() {
-        return this.isNormal;
-    }
-
     @Override
     public void setGraph(HashMap<String, List<String>> graph) {
+        boolean err = false;
+
         for (String key : graph.keySet()) {
             for (String connect : graph.get(key)) {
                 int iName = connect.indexOf("-");
@@ -37,22 +35,28 @@ public class OrientedWeightedGraph extends DirecredGraph{
                         weight = Integer.parseInt(connect.substring(iName, connect.length()));
                     } catch (NumberFormatException numE) {
                         System.out.println("В качестве веса может быть указано только число!");
-                        this.isNormal = false;
+                        if (this.graph == null) {
+                            this.isNormal = false;
+                        }
+                        err = true;
                     }
 
-                    if (!graph.containsKey(edge) && this.isNormal) {
-                        this.isNormal = false;
+                    if (!graph.containsKey(edge) || err) {
+                        if (this.graph == null) {
+                            this.isNormal = false;
+                        }
+                        err = true;
                         System.out.println("Указана связь с несуществующей вершиной: " + key + "-" + edge + "!");
                         break;
                     }
                 }
             }
-            if (!this.isNormal) {
+            if (err) {
                 break;
             }
         }
 
-        if (this.isNormal) {
+        if (!err) {
             this.graph = new HashMap<>(graph);
         }
     }
@@ -62,7 +66,6 @@ public class OrientedWeightedGraph extends DirecredGraph{
         if (this.isNormal) {
             if (!this.graph.containsKey(name))
             {
-
                 boolean err = false;
 
                 for (String connect : edges) {
@@ -94,6 +97,8 @@ public class OrientedWeightedGraph extends DirecredGraph{
             } else {
                 System.out.println("В графе уже есть вершина: " + name + "!");
             }
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
     }
 
@@ -121,24 +126,10 @@ public class OrientedWeightedGraph extends DirecredGraph{
     }
 
     @Override
-    public Vertex getVertex(String name) {
-        if (this.isNormal) {
-            if (this.graph.containsKey(name)) {
-                return new Vertex(name, this.graph.get(name));
-            } else {
-                System.out.println("В графе нет вершины: " + name + "!");
-            }
-        } else {
-            System.out.println("Граф был некорректно создан, пресоздайте его!");
-        }
-        return null;
-    }
-
-    @Override
     public void addEdge(String vertex, String edge) {
         if (this.isNormal) {
-
             boolean err = false;
+
             int iName = edge.indexOf("-");
             if (iName != -1) {
                 try {

@@ -19,26 +19,27 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
         }
     }
 
-    public boolean getStatus() {
-        return this.isNormal;
-    }
-
     @Override
     public void setGraph(HashMap<String, List<String>> graph) {
+        boolean err = false;
+
         for (String key : graph.keySet()) {
             for (String edge : graph.get(key)) {
                 if (!graph.containsKey(edge)) {
-                    this.isNormal = false;
+                    if (this.graph == null) {
+                        this.isNormal = false;
+                    }
+                    err = true;
                     System.out.println("Указана связь с несуществующей вершиной: " + key + "-" + edge + "!");
                     break;
                 }
             }
-            if (!this.isNormal) {
+            if (err) {
                 break;
             }
         }
 
-        if (this.isNormal) {
+        if (!err) {
             this.graph = new HashMap<>(graph);
         }
     }
@@ -50,7 +51,7 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
 
                 boolean err = false;
 
-                for (String edge : this.graph.get(name)) {
+                for (String edge : edges) {
                     if (!this.graph.containsKey(edge)) {
                         err = true;
                         System.out.println("Указана связь с несуществующей вершиной: " + name + "-" + edge+ "!");
@@ -88,19 +89,6 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
         } else {
             System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
-    }
-    @Override
-    public Vertex getVertex(String name) {
-        if (this.isNormal) {
-            if (this.graph.containsKey(name)) {
-                return new Vertex(name, this.graph.get(name));
-            } else {
-                System.out.println("В графе нет вершины: " + name + "!");
-            }
-        } else {
-            System.out.println("Граф был некорректно создан, пресоздайте его!");
-        }
-        return null;
     }
 
     @Override
