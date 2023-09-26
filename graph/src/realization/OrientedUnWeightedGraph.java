@@ -18,6 +18,11 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
             System.out.println("Переданный вами в конструктор граф был некорректно создан, пресоздайте его!");
         }
     }
+    public OrientedUnWeightedGraph(String wayToFile) {
+        if (readGraphFromFile(wayToFile) != null) {
+            setGraph(readGraphFromFile(wayToFile));
+        }
+    }
 
     @Override
     public void setGraph(HashMap<String, List<String>> graph) {

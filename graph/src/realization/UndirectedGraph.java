@@ -20,7 +20,9 @@ public class UndirectedGraph extends Graph{
         }
     }
     public UndirectedGraph(String wayToFile) {
-        setGraph(readGraphFromFile(wayToFile));
+        if (readGraphFromFile(wayToFile) != null) {
+            setGraph(readGraphFromFile(wayToFile));
+        }
     }
 
     @Override

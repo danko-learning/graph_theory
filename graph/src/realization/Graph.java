@@ -24,16 +24,18 @@ public abstract class Graph {
             fr = new FileReader(file);
             BufferedReader reader = new BufferedReader(fr);
             String line = reader.readLine();
-
             while (line != null) {
                 int inedxColon = line.indexOf(":");
                 if (inedxColon != -1) {
                     String vertex = line.substring(0, inedxColon);
-                    String edges = line.substring(inedxColon, line.length());
+                    String edges = line.substring(inedxColon + 1, line.length());
                     graph.put(vertex, Arrays.asList(edges.split(" ")));
                     line = reader.readLine();
                 } else {
                     System.out.println("Некорректно задан файл (не удалось найти имя вершины в строке \t" + line);
+                    if (this.graph == null) {
+                        this.isNormal = false;
+                    }
                     return null;
                 }
             }
@@ -41,9 +43,15 @@ public abstract class Graph {
             return graph;
         } catch (FileNotFoundException fn){
             System.out.println("Не получилось прочитать файл!");
+            if (this.graph == null) {
+                this.isNormal = false;
+            }
             return null;
         } catch (IOException io) {
             System.out.println("Не удалось прочитать строку");
+            if (this.graph == null) {
+                this.isNormal = false;
+            }
             return null;
         }
     }
@@ -75,12 +83,14 @@ public abstract class Graph {
     public abstract void delEdge(String vertex, String edge);
 
     public void printGraph() {
-        for (String key : this.graph.keySet()) {
-            System.out.print(key + " : ");
-            for (String edge : this.graph.get(key)) {
-                System.out.print(edge + " ");
+        if (this.isNormal) {
+            for (String key : this.graph.keySet()) {
+                System.out.print(key + " : ");
+                for (String edge : this.graph.get(key)) {
+                    System.out.print(edge + " ");
+                }
+                System.out.println();
             }
-            System.out.println();
         }
     }
 }

@@ -1,6 +1,8 @@
 package realization;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public class OrientedWeightedGraph extends DirecredGraph{
@@ -16,6 +18,11 @@ public class OrientedWeightedGraph extends DirecredGraph{
             this.graph = new HashMap<>(oWGraph.getGraph());
         } else {
             System.out.println("Переданный вами в конструктор граф был некорректно создан, пресоздайте его!");
+        }
+    }
+    public OrientedWeightedGraph(String wayToFile) {
+        if (readGraphFromFile(wayToFile) != null) {
+            setGraph(readGraphFromFile(wayToFile));
         }
     }
 
@@ -49,6 +56,12 @@ public class OrientedWeightedGraph extends DirecredGraph{
                         System.out.println("Указана связь с несуществующей вершиной: " + key + "-" + edge + "!");
                         break;
                     }
+                } else {
+                    if (this.graph == null) {
+                        this.isNormal = false;
+                    }
+                    err = true;
+                    System.out.println("У связи: " + connect + " не указан вес!");
                 }
             }
             if (err) {
@@ -109,11 +122,13 @@ public class OrientedWeightedGraph extends DirecredGraph{
                 this.graph.remove(name);
 
                 for (String vertex : this.graph.keySet()) {
-                    for (String connect : this.graph.get(vertex)) {
-                        String edge = connect.substring(0, connect.indexOf("-"));
 
+                    Iterator<String> it = this.graph.get(vertex).iterator();
+                    while(it.hasNext()) {
+                        String connect = it.next();
+                        String edge = connect.substring(0, connect.indexOf("-"));
                         if (edge.equals(name)) {
-                            this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(connect));
+                            it.remove();
                         }
                     }
                 }
@@ -134,6 +149,10 @@ public class OrientedWeightedGraph extends DirecredGraph{
             if (iName != -1) {
                 try {
                     String weight = edge.substring(iName, edge.length());
+                    if (!this.graph.containsKey(edge.substring(0, iName))) {
+                        System.out.println("Попытка создать связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
+                        err = true;
+                    }
                 } catch (NumberFormatException numE) {
                     System.out.println("В качестве веса может быть указано только число!");
                     err = true;
@@ -147,13 +166,13 @@ public class OrientedWeightedGraph extends DirecredGraph{
     }
 
     @Override
-    public void delEdge(String vertex, String edge) {
+    public void delEdge(String vertex, String connect) {
         if (this.isNormal) {
             if (this.graph.containsKey(vertex)) {
-                if (this.graph.containsKey(edge)) {
-                    this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
+                if (this.graph.get(vertex).contains(connect)) {
+                    this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(connect));
                 } else {
-                    System.out.println("Попытка удалить связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
+                    System.out.println("Попытка удалить несуществующую связь: " + vertex + "-" + connect + "!");
                 }
             } else {
                 System.out.println("В графе нет вершины: " + vertex + "!");
