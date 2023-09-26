@@ -179,16 +179,18 @@ public class Main {
         UndirectedGraph c = new UndirectedGraph("/home/daniil/Общедоступные/university/terms/5 term/graph theory/graph/src/test/g1.txt");
         c.printGraph();
         System.out.println();
+        c.addEdge("e", "a");
+        c.printGraph();
 
-        OrientedUnWeightedGraph d = new OrientedUnWeightedGraph("/home/daniil/Общедоступные/university/terms/5 term/graph theory/graph/src/test/g2.txt");
-        d.printGraph();
-        System.out.println();
+//        OrientedUnWeightedGraph d = new OrientedUnWeightedGraph("/home/daniil/Общедоступные/university/terms/5 term/graph theory/graph/src/test/g2.txt");
+//        d.printGraph();
+//        System.out.println();
 
-        UndirectedGraph e = new UndirectedGraph("/home/daniil/Общедоступные/university/terms/5 term/graph theory/graph/src/test/g3.txt");
-        e.printGraph();
-        System.out.println();
-
-        OrientedWeightedGraph f = new OrientedWeightedGraph("/home/daniil/Общедоступные/university/terms/5 term/graph theory/graph/src/test/g4.txt");
-        f.printGraph();
+//        UndirectedGraph e = new UndirectedGraph("/home/daniil/Общедоступные/university/terms/5 term/graph theory/graph/src/test/g3.txt");
+//        e.printGraph();
+//        System.out.println();
+//
+//        OrientedWeightedGraph f = new OrientedWeightedGraph("/home/daniil/Общедоступные/university/terms/5 term/graph theory/graph/src/test/g4.txt");
+//        f.printGraph();
     }
 }

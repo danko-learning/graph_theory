@@ -1,7 +1,9 @@
 package realization;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class UndirectedGraph extends Graph{
@@ -28,9 +30,12 @@ public class UndirectedGraph extends Graph{
     @Override
     public void setGraph(HashMap<String, List<String>> graph) {
         boolean err = false;
-
         for (String key : graph.keySet()) {
             for (String edge : graph.get(key)) {
+                if (edge.equals("")) {
+                    graph.put(key, new LinkedList<String>());
+                    continue;
+                }
                 if (!graph.containsKey(edge)) {
                     if (this.graph == null) {
                         this.isNormal = false;
@@ -46,7 +51,7 @@ public class UndirectedGraph extends Graph{
         }
 
         if (!err) {
-            this.graph = new HashMap<>(graph);
+            this.graph = new HashMap<String, List<String>>(graph);
 
             for (String key : this.graph.keySet()) {
                 for (String edge : this.graph.get(key)) {
