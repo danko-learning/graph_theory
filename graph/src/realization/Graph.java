@@ -29,7 +29,11 @@ public abstract class Graph {
                 if (inedxColon != -1) {
                     String vertex = line.substring(0, inedxColon);
                     String edges = line.substring(inedxColon + 1, line.length());
-                    graph.put(vertex, Arrays.asList(edges.split(" ")));
+                    if (edges.length() > 0) {
+                        graph.put(vertex, new ArrayList<>( Arrays.asList(edges.split(" "))));
+                    } else {
+                        graph.put(vertex, new ArrayList<>());
+                    }
                     line = reader.readLine();
                 } else {
                     System.out.println("Некорректно задан файл (не удалось найти имя вершины в строке \t" + line);

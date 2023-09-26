@@ -32,10 +32,6 @@ public class UndirectedGraph extends Graph{
         boolean err = false;
         for (String key : graph.keySet()) {
             for (String edge : graph.get(key)) {
-                if (edge.equals("")) {
-                    graph.put(key, new LinkedList<String>());
-                    continue;
-                }
                 if (!graph.containsKey(edge)) {
                     if (this.graph == null) {
                         this.isNormal = false;
@@ -139,8 +135,13 @@ public class UndirectedGraph extends Graph{
         if (this.isNormal) {
             if (this.graph.containsKey(vertex)) {
                 if (this.graph.containsKey(edge)) {
-                    this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
-                    this.graph.get(edge).remove(this.graph.get(edge).indexOf(vertex));
+                    if (this.graph.get(vertex).contains(edge)) {
+                        this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
+                        this.graph.get(edge).remove(this.graph.get(edge).indexOf(vertex));
+                    } else {
+                        System.out.println("Попытка удалить несуществующую связь!");
+                    }
+
                 } else {
                     System.out.println("Попытка удалить связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
                 }

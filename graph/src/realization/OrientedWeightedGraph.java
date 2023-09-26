@@ -39,7 +39,7 @@ public class OrientedWeightedGraph extends DirecredGraph{
                     double weight;
 
                     try {
-                        weight = Integer.parseInt(connect.substring(iName, connect.length()));
+                        weight = Integer.parseInt(connect.substring(iName + 1, connect.length()));
                     } catch (NumberFormatException numE) {
                         System.out.println("В качестве веса может быть указано только число!");
                         if (this.graph == null) {
