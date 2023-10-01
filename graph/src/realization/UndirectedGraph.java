@@ -58,6 +58,11 @@ public class UndirectedGraph extends Graph{
             }
         }
     }
+    public void setGraph(String wayToFile) {
+        if (readGraphFromFile(wayToFile) != null) {
+            setGraph(readGraphFromFile(wayToFile));
+        }
+    }
 
     @Override
     public void addVertex(String name, List<String> edges) {
@@ -118,8 +123,16 @@ public class UndirectedGraph extends Graph{
         if (this.isNormal) {
             if (this.graph.containsKey(vertex)) {
                 if (this.graph.containsKey(edge)) {
-                    this.graph.get(vertex).add(edge);
-                    this.graph.get(edge).add(vertex);
+                    if (!this.graph.get(vertex).contains(edge)) {
+                        if (!this.graph.get(vertex).contains(edge)) {
+                            this.graph.get(vertex).add(edge);
+                            this.graph.get(edge).add(vertex);
+                        } else {
+                            System.out.println("В графе уже есть вершина" + edge + "!");
+                        }
+                    } else {
+                        System.out.println("В графе уже есть вершина" + edge + "!");
+                    }
                 } else {
                     System.out.println("Попытка создать связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
                 }

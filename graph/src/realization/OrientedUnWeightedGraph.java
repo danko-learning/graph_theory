@@ -48,6 +48,11 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
             this.graph = new HashMap<>(graph);
         }
     }
+    public void setGraph(String wayToFile) {
+        if (readGraphFromFile(wayToFile) != null) {
+            setGraph(readGraphFromFile(wayToFile));
+        }
+    }
 
     @Override
     public void addVertex(String name, List<String> edges) {
@@ -101,7 +106,11 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
         if (this.isNormal) {
             if (this.graph.containsKey(vertex)) {
                 if (this.graph.containsKey(edge)) {
-                    this.graph.get(vertex).add(edge);
+                    if (!this.graph.get(vertex).contains(edge)) {
+                        this.graph.get(vertex).add(edge);
+                    } else {
+                        System.out.println("В графе уже есть вершина" + edge + "!");
+                    }
                 } else {
                     System.out.println("Попытка создать связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
                 }
@@ -117,7 +126,11 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
         if (this.isNormal) {
             if (this.graph.containsKey(vertex)) {
                 if (this.graph.containsKey(edge)) {
-                    this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
+                    if (this.graph.get(vertex).contains(edge)) {
+                        this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
+                    } else {
+                        System.out.println("Попытка удалить несуществующую связь!");
+                    }
                 } else {
                     System.out.println("Попытка удалить связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
                 }

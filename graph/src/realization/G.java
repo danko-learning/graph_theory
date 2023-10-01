@@ -10,6 +10,7 @@ public class G {
     private OrientedUnWeightedGraph oUWG;
     private OrientedWeightedGraph oWG;
 
+    public G () {}
     public G(String type) {
         if (type.equals("undirected graph")) {
             this.type = type;
@@ -69,6 +70,10 @@ public class G {
         oUWG = null;
     }
 
+    public String getType() {
+        return this.type;
+    }
+
     public void setGraph(HashMap<String, List<String>> graph) {
         if (this.type.equals("undirected graph")) {
             this.uG.setGraph(graph);
@@ -99,6 +104,30 @@ public class G {
             this.oUWG.setGraph(graph.getGraph());
         } else {
             System.out.println("Граф имеет другой тип или не был создан!");
+        }
+    }
+    public void setGraph(String wayToFile) {
+        if (this.type.equals("undirected graph")) {
+            this.uG.setGraph(wayToFile);
+        } else if (this.type.equals("oriented unweighted graph")) {
+            this.oUWG.setGraph(wayToFile);
+        } else if (this.type.equals("oriented weighted graph")) {
+            this.oWG.setGraph(wayToFile);
+        } else {
+            System.out.println("Граф не был создан!");
+        }
+    }
+
+    public HashMap<String, List<String>> getList() {
+        if (this.type.equals("undirected graph")) {
+            return this.uG.getGraph();
+        } else if (this.type.equals("oriented unweighted graph")) {
+            return this.oUWG.getGraph();
+        } else if (this.type.equals("oriented weighted graph")) {
+            return this.oWG.getGraph();
+        } else {
+            System.out.println("Граф не был создан!");
+            return null;
         }
     }
 

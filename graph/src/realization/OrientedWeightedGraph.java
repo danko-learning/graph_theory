@@ -73,6 +73,11 @@ public class OrientedWeightedGraph extends DirecredGraph{
             this.graph = new HashMap<>(graph);
         }
     }
+    public void setGraph(String wayToFile) {
+        if (readGraphFromFile(wayToFile) != null) {
+            setGraph(readGraphFromFile(wayToFile));
+        }
+    }
 
     @Override
     public void addVertex(String name, List<String> edges) {
@@ -160,7 +165,11 @@ public class OrientedWeightedGraph extends DirecredGraph{
             }
 
             if (this.graph.containsKey(vertex) && !err) {
-                this.graph.get(vertex).add(edge);
+                if (!this.graph.get(vertex).contains(edge)) {
+                    this.graph.get(vertex).add(edge);
+                } else {
+                    System.out.println("В графе уже есть вершина" + edge + "!");
+                }
             }
         }
     }
