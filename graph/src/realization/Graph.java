@@ -1,5 +1,7 @@
 package realization;
 
+import org.w3c.dom.ls.LSException;
+
 import java.io.*;
 import java.util.*;
 
@@ -95,6 +97,61 @@ public abstract class Graph {
                 }
                 System.out.println();
             }
+        }
+    }
+
+    public abstract int vertexDegree(String vertex);
+    public abstract void printVertexesDegree();
+
+    public List<String> hangingVertices() {
+        if (this.isNormal) {
+            List<String> hangVertices = new ArrayList<>();
+            for (String key : this.graph.keySet()) {
+                if (vertexDegree(key) == 1) {
+                    hangVertices.add(key);
+                }
+            }
+            return hangVertices;
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return null;
+        }
+    }
+    public void printHangingVertices() {
+        if (this.isNormal) {
+            System.out.println("\nВисячие вершины графа:");
+            for (String vertex : hangingVertices()) {
+                System.out.print(vertex + " ");
+            }
+            System.out.println("\n");
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+        }
+    }
+
+    public List<String> isolatedVertices() {
+        if (this.isNormal) {
+            List<String> hangVertices = new ArrayList<>();
+            for (String key : this.graph.keySet()) {
+                if (vertexDegree(key) == 0) {
+                    hangVertices.add(key);
+                }
+            }
+            return hangVertices;
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return null;
+        }
+    }
+    public void printIsolatedVertices() {
+        if (this.isNormal) {
+            System.out.println("\nВисячие вершины графа:");
+            for (String vertex : isolatedVertices()) {
+                System.out.print(vertex + " ");
+            }
+            System.out.println("\n");
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
     }
 }

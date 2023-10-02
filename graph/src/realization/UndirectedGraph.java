@@ -165,4 +165,31 @@ public class UndirectedGraph extends Graph{
             System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
     }
+
+    @Override
+    public int vertexDegree(String vertex) {
+        if (this.isNormal) {
+            if (this.graph.containsKey(vertex)) {
+                return this.graph.get(vertex).size();
+            } else {
+                System.out.println("В графе нет вершины: " + vertex + "!");
+                return -1;
+            }
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return -1;
+        }
+    }
+    @Override
+    public void printVertexesDegree() {
+        if (this.isNormal) {
+            System.out.println("\nСтепени вершины графа:");
+            for (String key : this.graph.keySet()) {
+                System.out.println(key + " - " + vertexDegree(key));
+            }
+            System.out.println();
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+        }
+    }
 }

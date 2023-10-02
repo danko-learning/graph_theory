@@ -1,5 +1,6 @@
 package realization;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -139,6 +140,31 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
             }
         } else {
             System.out.println("Граф был некорректно создан, пресоздайте его!");
+        }
+    }
+
+    @Override
+    public int inVertexDegree(String vertex) {
+        if (this.isNormal) {
+            if (this.graph.containsKey(vertex)) {
+                int inDegree = 0;
+
+                for (String key : this.graph.keySet()) {
+                    if (key.equals("vertex")) {
+                        continue;
+                    }
+                    if (this.graph.get(vertex).contains(vertex)) {
+                        inDegree += 1;
+                    }
+                }
+                return inDegree;
+            } else {
+                System.out.println("В графе нет вершины: " + vertex + "!");
+                return -1;
+            }
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return -1;
         }
     }
 }
