@@ -171,4 +171,16 @@ public abstract class Graph {
             System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
     }
+
+    public void delHangingVertexes() {
+        if (this.isNormal) {
+            if (!this.hangingVertices().isEmpty()) {
+                for (String vertex: this.hangingVertices()) {
+                    this.delVertex(vertex);
+                }
+            }
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+        }
+    }
 }

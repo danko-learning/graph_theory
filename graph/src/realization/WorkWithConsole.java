@@ -43,12 +43,19 @@ public class WorkWithConsole {
 
         System.out.println("Чтобы сохранить граф в файл введите:" +
                 "\"write\"");
+        System.out.println();
 
         System.out.println("Чтобы вывести все висячие вершины (степень вершины 1) введите:" +
                 "\"hanging vertexes\"");
+        System.out.println();
 
         System.out.println("Чтобы вывести вершину в которую есть дуга из вершины u и нет дуги из вершины v\n" +
                 "введите: \"from u and not from v\"");
+        System.out.println();
+
+        System.out.println("Чтобы удалить из графа все висячие вершины (степень вершины 1) введите:" +
+                "\"del hanging vertexes\"");
+        System.out.println();
 
         System.out.println("Пример списка смежности неориентированного графа:\n" +
                 "a:b\n" +
@@ -224,6 +231,10 @@ public class WorkWithConsole {
                     v = sc.nextLine();
 
                     g.getGraph().printFromUAndNotFromV(u, v);
+                    break;
+
+                case ("del hanging vertexes"):
+                    g.getGraph().delHangingVertexes();
                     break;
 
                 default:
