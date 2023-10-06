@@ -119,11 +119,16 @@ public abstract class Graph {
     }
     public void printHangingVertices() {
         if (this.isNormal) {
-            System.out.println("\nВисячие вершины графа:");
-            for (String vertex : hangingVertices()) {
-                System.out.print(vertex + " ");
+            if (hangingVertices().isEmpty()) {
+                System.out.println("В графе нет таких вершин!");
+            } else {
+                System.out.println("\nВисячие вершины графа:");
+
+                for (String vertex : hangingVertices()) {
+                    System.out.print(vertex + " ");
+                }
+                System.out.println("\n");
             }
-            System.out.println("\n");
         } else {
             System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
@@ -150,6 +155,18 @@ public abstract class Graph {
                 System.out.print(vertex + " ");
             }
             System.out.println("\n");
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+        }
+    }
+
+    public abstract String fromUAndNotFromV(String u, String v);
+    public void printFromUAndNotFromV(String u, String v) {
+        if (this.isNormal) {
+            String result = fromUAndNotFromV(u, v);
+            if (!result.equals("")) {
+                System.out.println(fromUAndNotFromV(u, v));
+            }
         } else {
             System.out.println("Граф был некорректно создан, пресоздайте его!");
         }

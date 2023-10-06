@@ -165,7 +165,7 @@ public abstract class DirecredGraph extends Graph{
         if (this.isNormal) {
             if (this.graph.containsKey(vertex)) {
                 System.out.println("\nВершины, степень исхода которых больше, чем у вершины " + vertex + ":");
-                for (String vert : vertexesThemSmallerInOut(vertex)) {
+                for (String vert : vertexesThemSmallerIn(vertex)) {
                     System.out.print(vert + " ");
                 }
                 System.out.println("\n");

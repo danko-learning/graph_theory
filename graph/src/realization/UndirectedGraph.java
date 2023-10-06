@@ -192,4 +192,35 @@ public class UndirectedGraph extends Graph{
             System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
     }
+
+    @Override
+    public String fromUAndNotFromV(String u, String v) {
+        if (this.isNormal) {
+            if (this.graph.containsKey(u))
+            {
+                if (this.graph.containsKey(v)) {
+                    List<String> uEdge = new ArrayList<>(this.graph.get(u));
+                    List<String> vEdge = new ArrayList<>(this.graph.get(v));
+
+                    uEdge.removeAll(vEdge);
+
+                    if(uEdge.isEmpty()) {
+                        System.out.println("В графе нет подходящих вершин!");
+                        return "";
+                    } else {
+                        return uEdge.get(0);
+                    }
+                } else {
+                    System.out.println("В графе нет вершины: " + v + "!");
+                    return "";
+                }
+            } else {
+                System.out.println("В графе нет вершины: " + u + "!");
+                return "";
+            }
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return "";
+        }
+    }
 }

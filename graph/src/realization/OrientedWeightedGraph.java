@@ -219,4 +219,44 @@ public class OrientedWeightedGraph extends DirecredGraph{
             return -1;
         }
     }
+
+    @Override
+    public String fromUAndNotFromV(String u, String v) {
+        if (this.isNormal) {
+            if (this.graph.containsKey(u))
+            {
+                if (this.graph.containsKey(v)) {
+                    List<String> uEdge = new ArrayList<>();
+                    for (String conn : this.graph.get(u)) {
+                        String edge = conn.substring(0, conn.indexOf("-"));
+                        uEdge.add(edge);
+                    }
+
+                    List<String> vEdge = new ArrayList<>();
+                    for (String conn : this.graph.get(v)) {
+                        String edge = conn.substring(0, conn.indexOf("-"));
+                        vEdge.add(edge);
+                    }
+
+                    uEdge.removeAll(vEdge);
+
+                    if(uEdge.isEmpty()) {
+                        System.out.println("В графе нет подходящих вершин!");
+                        return "";
+                    } else {
+                        return uEdge.get(0);
+                    }
+                } else {
+                    System.out.println("В графе нет вершины: " + v + "!");
+                    return "";
+                }
+            } else {
+                System.out.println("В графе нет вершины: " + u + "!");
+                return "";
+            }
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return "";
+        }
+    }
 }

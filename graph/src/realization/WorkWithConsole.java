@@ -44,6 +44,12 @@ public class WorkWithConsole {
         System.out.println("Чтобы сохранить граф в файл введите:" +
                 "\"write\"");
 
+        System.out.println("Чтобы вывести все висячие вершины (степень вершины 1) введите:" +
+                "\"hanging vertexes\"");
+
+        System.out.println("Чтобы вывести вершину в которую есть дуга из вершины u и нет дуги из вершины v\n" +
+                "введите: \"from u and not from v\"");
+
         System.out.println("Пример списка смежности неориентированного графа:\n" +
                 "a:b\n" +
                 "b:a c d\n" +
@@ -201,6 +207,27 @@ public class WorkWithConsole {
                     } catch (FileNotFoundException e) {
                         System.out.println("Что-то пошло не так!");
                     }
+                    break;
+
+                case ("print hanging vertexes"):
+                    g.getGraph().printHangingVertices();
+                    break;
+
+                case ("from u and not from v"):
+                    String u;
+                    String v;
+
+                    System.out.println("Введите u:");
+                    u = sc.nextLine();
+
+                    System.out.println("Введите v:");
+                    v = sc.nextLine();
+
+                    g.getGraph().printFromUAndNotFromV(u, v);
+                    break;
+
+                default:
+                    System.out.println("Нет такой команды");
             }
 
             in = sc.nextLine();
