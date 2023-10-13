@@ -183,4 +183,49 @@ public abstract class Graph {
             System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
     }
+
+    public void BFS() {
+        List<String> visited = new ArrayList<>();
+        Queue<String> q = new LinkedList<>();
+
+        for (String vertex : this.graph.keySet()) {
+            if (!visited.contains(vertex)) {
+                q.add(vertex);
+            }
+            while (!q.isEmpty()) {
+                System.out.print(q.peek() + " ");
+                for (String edge : this.graph.get(q.peek())) {
+                    if (!visited.contains(edge) && !q.contains(edge)) {
+                        q.add(edge);
+                    }
+                }
+                visited.add(q.poll());
+            }
+            if (visited.size() == this.graph.size())
+            {
+                break;
+            }
+        }
+    }
+
+    public boolean IsConnectedGraph() {
+        boolean IsConnectG = true;
+
+        Set<String> edges = new HashSet<>();
+        Set<String> vertexes = new HashSet<>(this.graph.keySet());
+        for (String vertex : this.graph.keySet()) {
+            vertexes.remove(vertex);
+            for (String edge : this.graph.get(vertex)) {
+                edges.add(edge);
+            }
+            if (!edges.containsAll(vertexes)) {
+                IsConnectG = false;
+                break;
+            }
+            vertexes.add(vertex);
+            edges.clear();
+        }
+
+        return IsConnectG;
+    }
 }

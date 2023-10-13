@@ -57,6 +57,14 @@ public class WorkWithConsole {
                 "\"del hanging vertexes\"");
         System.out.println();
 
+        System.out.println("Чтобы сделать обход в ширину введите" +
+                "\"BFS\"");
+        System.out.println();
+
+        System.out.println("Чтобы провериьт граф на связность введите" +
+                "\"Is connected graph\"");
+        System.out.println();
+
         System.out.println("Пример списка смежности неориентированного графа:\n" +
                 "a:b\n" +
                 "b:a c d\n" +
@@ -235,6 +243,15 @@ public class WorkWithConsole {
 
                 case ("del hanging vertexes"):
                     g.getGraph().delHangingVertexes();
+                    break;
+
+                case ("BFS") :
+                    System.out.println("\nGraph:");
+                    g.getGraph().BFS();
+                    break;
+
+                case ("Is connected graph"):
+                    System.out.println("\n" + g.getGraph().IsConnectedGraph());
                     break;
 
                 default:

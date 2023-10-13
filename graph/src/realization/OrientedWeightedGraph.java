@@ -1,9 +1,6 @@
 package realization;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class OrientedWeightedGraph extends DirecredGraph{
 
@@ -258,5 +255,54 @@ public class OrientedWeightedGraph extends DirecredGraph{
             System.out.println("Граф был некорректно создан, пресоздайте его!");
             return "";
         }
+    }
+
+    @Override
+    public void BFS() {
+        List<String> visited = new ArrayList<>();
+        Queue<String> q = new LinkedList<>();
+
+        for (String vertex : this.graph.keySet()) {
+            if (!visited.contains(vertex)) {
+                q.add(vertex);
+            }
+            while (!q.isEmpty()) {
+                System.out.print(q.peek() + " ");
+                for (String conn : this.graph.get(q.peek())) {
+                    String edge = conn.substring(0, conn.indexOf("-"));
+                    if (!visited.contains(edge) && !q.contains(edge)) {
+                        q.add(edge);
+                    }
+                }
+                visited.add(q.poll());
+            }
+            if (visited.size() == this.graph.size())
+            {
+                break;
+            }
+        }
+    }
+
+    @Override
+    public boolean IsConnectedGraph() {
+        boolean IsConnectG = true;
+
+        Set<String> edges = new HashSet<>();
+        Set<String> vertexes = new HashSet<>(this.graph.keySet());
+        for (String vertex : this.graph.keySet()) {
+            vertexes.remove(vertex);
+            for (String conn : this.graph.get(vertex)) {
+                String edge = conn.substring(0, conn.indexOf("-"));
+                edges.add(edge);
+            }
+            if (!edges.containsAll(vertexes)) {
+                IsConnectG = false;
+                break;
+            }
+            vertexes.add(vertex);
+            edges.clear();
+        }
+
+        return IsConnectG;
     }
 }
