@@ -184,48 +184,132 @@ public abstract class Graph {
         }
     }
 
-    public void BFS() {
-        List<String> visited = new ArrayList<>();
-        Queue<String> q = new LinkedList<>();
+    public List<String> BFS(String vertex) {
+        if (this.isNormal) {
+            if (this.graph.containsKey(vertex)) {
+                List<String> visited = new ArrayList<>();
+                Queue<String> q = new LinkedList<>();
 
-        for (String vertex : this.graph.keySet()) {
-            if (!visited.contains(vertex)) {
+                visited.add(vertex);
                 q.add(vertex);
+                while (!q.isEmpty()) {
+                    for (String edge : this.graph.get(q.peek())) {
+                        if (!visited.contains(edge) && !q.contains(edge)) {
+                            q.add(edge);
+                        }
+                    }
+                    visited.add(q.poll());
+                }
+
+                return visited;
+            } else {
+                System.out.println("В графе нет вершины " + vertex + "!");
+                return null;
             }
-            while (!q.isEmpty()) {
-                System.out.print(q.peek() + " ");
-                for (String edge : this.graph.get(q.peek())) {
-                    if (!visited.contains(edge) && !q.contains(edge)) {
-                        q.add(edge);
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return null;
+        }
+    }
+
+    public List<String> DFS(String vertex) {
+        if (this.isNormal) {
+            List<String> visited = new ArrayList<>();
+
+            Stack<String> s = new Stack<>();
+            s.push(vertex);
+
+            while (!s.isEmpty()) {
+                if (!visited.contains(s.peek())) {
+                    visited.add(s.peek());
+                }
+                for (String edge : this.graph.get(s.pop())) {
+                    if (!visited.contains(edge) && !s.contains(edge)) {
+                        s.push(edge);
                     }
                 }
-                visited.add(q.poll());
             }
-            if (visited.size() == this.graph.size())
-            {
-                break;
-            }
+
+            return visited;
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return null;
         }
     }
 
     public boolean IsConnectedGraph() {
-        boolean IsConnectG = true;
-
-        Set<String> edges = new HashSet<>();
-        Set<String> vertexes = new HashSet<>(this.graph.keySet());
-        for (String vertex : this.graph.keySet()) {
-            vertexes.remove(vertex);
-            for (String edge : this.graph.get(vertex)) {
-                edges.add(edge);
+        if (this.isNormal) {
+            boolean IsconnectedG = false;
+            for (String vertex : this.graph.keySet()) {
+                if (DFS(vertex).containsAll(this.graph.keySet())) {
+                    return true;
+                }
             }
-            if (!edges.containsAll(vertexes)) {
-                IsConnectG = false;
-                break;
-            }
-            vertexes.add(vertex);
-            edges.clear();
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
+        return false;
+    }
 
-        return IsConnectG;
+    protected void iterShortestPathFromUtoV (String u, String v, List<String> path, List<String> visited)
+    {
+        List<String> currentPath = new ArrayList<>(path);
+
+        if (this.graph.get(u).contains(v)) {
+            if (!visited.contains(v)) {
+                currentPath.add(v);
+                visited.add(u);
+                visited.add(v);
+                System.out.println(currentPath);
+            }
+        } else {
+            visited.add(u);
+            boolean flag = true;
+            for (String edge : this.graph.get(u)) {
+                if (this.graph.get(edge).contains(v)) {
+                    currentPath.add(edge);
+                    visited.add(edge);
+                    iterShortestPathFromUtoV(edge, v, currentPath, visited);
+                    break;
+                }
+            }
+            if (flag) {
+                for (String edge : this.graph.get(u)) {
+                    if (visited.contains(edge)) {
+                        continue;
+                    }
+                    currentPath.add(edge);
+                    iterShortestPathFromUtoV(edge, v, currentPath, visited);
+                    currentPath.remove(edge);
+                }
+            }
+        }
+    }
+    public void shortestPathFromUtoV (String u, String v) {
+        if (this.isNormal) {
+            if (this.graph.containsKey(u)) {
+                if (this.graph.containsKey(v)) {
+                    if (this.BFS(u).contains(v)) {
+                        if (u.equals(v)) {
+                            System.out.println(u + " " + v);
+                        } else {
+                            List<String> path = new ArrayList<>();
+                            path.add(u);
+                            List<String> visited = new ArrayList<>();
+                            visited.add(u);
+                            iterShortestPathFromUtoV(u, v, path, visited);
+                        }
+                    } else {
+                        System.out.println("Пути из вершины " + u + " в вершину " + v + " не существует!");
+                    }
+                } else {
+                    System.out.println("В графе нет вершины " + v + "!");
+                }
+            } else {
+                System.out.println("В графе нет вершины " + u + "!");
+            }
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+        }
     }
 }

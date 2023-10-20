@@ -258,51 +258,59 @@ public class OrientedWeightedGraph extends DirecredGraph{
     }
 
     @Override
-    public void BFS() {
-        List<String> visited = new ArrayList<>();
-        Queue<String> q = new LinkedList<>();
+    public List<String> BFS(String vertex) {
+        if (this.isNormal) {
+            if (this.graph.containsKey(vertex)) {
+                List<String> visited = new ArrayList<>();
+                Queue<String> q = new LinkedList<>();
 
-        for (String vertex : this.graph.keySet()) {
-            if (!visited.contains(vertex)) {
+                visited.add(vertex);
                 q.add(vertex);
-            }
-            while (!q.isEmpty()) {
-                System.out.print(q.peek() + " ");
-                for (String conn : this.graph.get(q.peek())) {
-                    String edge = conn.substring(0, conn.indexOf("-"));
-                    if (!visited.contains(edge) && !q.contains(edge)) {
-                        q.add(edge);
+                while (!q.isEmpty()) {
+                    for (String conn : this.graph.get(q.peek())) {
+                        String edge = conn.substring(0, conn.indexOf("-"));
+                        if (!visited.contains(edge) && !q.contains(edge)) {
+                            q.add(edge);
+                        }
                     }
+                    visited.add(q.poll());
                 }
-                visited.add(q.poll());
+
+                return visited;
+            } else {
+                System.out.println("В графе нет вершины " + vertex + "!");
+                return null;
             }
-            if (visited.size() == this.graph.size())
-            {
-                break;
-            }
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return null;
         }
     }
 
     @Override
-    public boolean IsConnectedGraph() {
-        boolean IsConnectG = true;
+    public List<String> DFS(String vertex) {
+        if (this.isNormal) {
+            List<String> visited = new ArrayList<>();
 
-        Set<String> edges = new HashSet<>();
-        Set<String> vertexes = new HashSet<>(this.graph.keySet());
-        for (String vertex : this.graph.keySet()) {
-            vertexes.remove(vertex);
-            for (String conn : this.graph.get(vertex)) {
-                String edge = conn.substring(0, conn.indexOf("-"));
-                edges.add(edge);
+            Stack<String> s = new Stack<>();
+            s.push(vertex);
+
+            while (!s.isEmpty()) {
+                if (!visited.contains(s.peek())) {
+                    visited.add(s.peek());
+                }
+                for (String conn : this.graph.get(s.pop())) {
+                    String edge = conn.substring(0, conn.indexOf("-"));
+                    if (!visited.contains(edge) && !s.contains(edge)) {
+                        s.push(edge);
+                    }
+                }
             }
-            if (!edges.containsAll(vertexes)) {
-                IsConnectG = false;
-                break;
-            }
-            vertexes.add(vertex);
-            edges.clear();
+
+            return visited;
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
+            return null;
         }
-
-        return IsConnectG;
     }
 }

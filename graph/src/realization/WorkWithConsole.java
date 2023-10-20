@@ -61,6 +61,14 @@ public class WorkWithConsole {
                 "\"BFS\"");
         System.out.println();
 
+        System.out.println("Чтобы провериьт граф на сильную связность введите" +
+                "\"Is strong connected graph\"");
+        System.out.println();
+
+        System.out.println("Чтобы сделать обход в глубину введите" +
+                "\"DFS\"");
+        System.out.println();
+
         System.out.println("Чтобы провериьт граф на связность введите" +
                 "\"Is connected graph\"");
         System.out.println();
@@ -245,13 +253,27 @@ public class WorkWithConsole {
                     g.getGraph().delHangingVertexes();
                     break;
 
-                case ("BFS") :
+                case ("BFS"):
                     System.out.println("\nGraph:");
-                    g.getGraph().BFS();
+                    g.getGraph().BFS("1");
+                    break;
+
+                case ("DFS"):
+                    System.out.println("\nGraph:");
+                    System.out.println(g.getGraph().DFS("1"));
                     break;
 
                 case ("Is connected graph"):
                     System.out.println("\n" + g.getGraph().IsConnectedGraph());
+                    break;
+
+                case ("shortest path from u to v"):
+                    System.out.println();
+                    System.out.println("Введите вершину u");
+                    u = sc.nextLine();
+                    System.out.println("Введите вершину v");
+                    v = sc.nextLine();
+                    g.getGraph().shortestPathFromUtoV(u, v);
                     break;
 
                 default:
