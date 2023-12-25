@@ -33,17 +33,6 @@ public class OrientedWeightedGraph extends DirecredGraph{
                 if (iName != -1)
                 {
                     String edge = connect.substring(0, iName);
-                    double weight;
-
-                    try {
-                        weight = Integer.parseInt(connect.substring(iName + 1, connect.length()));
-                    } catch (NumberFormatException numE) {
-                        System.out.println("В качестве веса может быть указано только число!");
-                        if (this.graph == null) {
-                            this.isNormal = false;
-                        }
-                        err = true;
-                    }
 
                     if (!graph.containsKey(edge) || err) {
                         if (this.graph == null) {
@@ -68,6 +57,7 @@ public class OrientedWeightedGraph extends DirecredGraph{
 
         if (!err) {
             this.graph = new HashMap<>(graph);
+            this.isNormal = true;
         }
     }
     public void setGraph(String wayToFile) {

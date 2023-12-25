@@ -1,13 +1,12 @@
 package realization;
 
 import org.w3c.dom.ls.LSException;
-
 import java.io.*;
 import java.util.*;
 
 
 public abstract class Graph {
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////// based
     protected boolean isNormal = true;
     protected HashMap<String, List<String>> graph;
 
@@ -15,8 +14,7 @@ public abstract class Graph {
         return this.isNormal;
     }
 
-    protected HashMap<String, List<String>> readGraphFromFile (String wayToFile)
-    {
+    protected HashMap<String, List<String>> readGraphFromFile (String wayToFile) {
         HashMap<String, List<String>> graph = new HashMap<String, List<String>>();
 
         File file = new File(wayToFile);
@@ -63,8 +61,17 @@ public abstract class Graph {
     }
 
     public abstract void setGraph(HashMap<String, List<String>> graph);
-    public void setGraph(Graph graph) {
-        setGraph(graph.getGraph());
+    public void setGraph(String path) {
+        HashMap<String, List<String>> graph = readGraphFromFile(path);
+
+        if (graph != null) {
+            this.graph = graph;
+            this.isNormal = true;
+        } else {
+            if (this.graph == null) {
+                this.isNormal = false;
+            }
+        }
     }
     public HashMap<String, List<String>> getGraph() {
         return new HashMap<String, List<String>>(this.graph);
@@ -99,6 +106,7 @@ public abstract class Graph {
             }
         }
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////// based
 
     public abstract int vertexDegree(String vertex);
     public abstract void printVertexesDegree();
@@ -251,8 +259,7 @@ public abstract class Graph {
         return false;
     }
 
-    protected void iterShortestPathFromUtoV (String u, String v, List<String> path, List<String> visited)
-    {
+    protected void iterShortestPathFromUtoV (String u, String v, List<String> path, List<String> visited) {
         List<String> currentPath = new ArrayList<>(path);
 
         if (this.graph.get(u).contains(v)) {

@@ -4,22 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class OrientedUnWeightedGraph extends DirecredGraph{
-
-    public OrientedUnWeightedGraph() {
+public class UndirectedUnweightedGraph extends UndirectedGraph{
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////// based
+    public UndirectedUnweightedGraph() {
         this.graph = new HashMap<>();
     }
-    public OrientedUnWeightedGraph(HashMap<String, List<String>> graph){
+    public UndirectedUnweightedGraph(HashMap<String, List<String>> graph){
         setGraph(graph);
     }
-    public OrientedUnWeightedGraph(UndirectedUnweightedGraph oUGraph) {
-        if (oUGraph.getStatus()) {
-            this.graph = new HashMap<>(oUGraph.getGraph());
+    public UndirectedUnweightedGraph(UndirectedUnweightedGraph uGraph) {
+        if (uGraph.getStatus()) {
+            this.graph = new HashMap<>(uGraph.getGraph());
+            this.isNormal = true;
         } else {
+            this.isNormal = false;
             System.out.println("Переданный вами в конструктор граф был некорректно создан, пресоздайте его!");
         }
     }
-    public OrientedUnWeightedGraph(String wayToFile) {
+    public UndirectedUnweightedGraph(String wayToFile) {
         if (readGraphFromFile(wayToFile) != null) {
             setGraph(readGraphFromFile(wayToFile));
         }
@@ -28,7 +30,6 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
     @Override
     public void setGraph(HashMap<String, List<String>> graph) {
         boolean err = false;
-
         for (String key : graph.keySet()) {
             for (String edge : graph.get(key)) {
                 if (!graph.containsKey(edge)) {
@@ -46,12 +47,26 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
         }
 
         if (!err) {
-            this.graph = new HashMap<>(graph);
+            this.graph = new HashMap<String, List<String>>(graph);
+
+            for (String key : this.graph.keySet()) {
+                for (String edge : this.graph.get(key)) {
+                    if (!this.graph.get(edge).contains(key)) {
+                        this.graph.get(edge).add(key);
+                    }
+                }
+            }
         }
     }
-    public void setGraph(String wayToFile) {
-        if (readGraphFromFile(wayToFile) != null) {
-            setGraph(readGraphFromFile(wayToFile));
+    public void setGraph(UndirectedUnweightedGraph uUW) {
+        if (uUW.getStatus()) {
+            this.graph = uUW.getGraph();
+            this.isNormal = true;
+        }
+        else {
+            if (this.graph == null) {
+                this.isNormal = false;
+            }
         }
     }
 
@@ -72,9 +87,15 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
 
                 if (!err) {
                     this.graph.put(name, edges);
+
+                    for (String edge : edges) {
+                        if (!this.graph.get(edge).contains(name))
+                        {
+                            this.graph.get(edge).add(name);
+                        }
+                    }
                 }
-            }
-            else {
+            } else {
                 System.out.println("В графе уже есть вершина: " + name + "!");
             }
         } else {
@@ -84,8 +105,7 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
     }
     @Override
     public void delVertex(String name) {
-        if (this.isNormal)
-        {
+        if (this.isNormal) {
             if (this.graph.containsKey(name)) {
                 this.graph.remove(name);
 
@@ -108,7 +128,12 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
             if (this.graph.containsKey(vertex)) {
                 if (this.graph.containsKey(edge)) {
                     if (!this.graph.get(vertex).contains(edge)) {
-                        this.graph.get(vertex).add(edge);
+                        if (!this.graph.get(vertex).contains(edge)) {
+                            this.graph.get(vertex).add(edge);
+                            this.graph.get(edge).add(vertex);
+                        } else {
+                            System.out.println("В графе уже есть вершина" + edge + "!");
+                        }
                     } else {
                         System.out.println("В графе уже есть вершина" + edge + "!");
                     }
@@ -129,9 +154,11 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
                 if (this.graph.containsKey(edge)) {
                     if (this.graph.get(vertex).contains(edge)) {
                         this.graph.get(vertex).remove(this.graph.get(vertex).indexOf(edge));
+                        this.graph.get(edge).remove(this.graph.get(edge).indexOf(vertex));
                     } else {
                         System.out.println("Попытка удалить несуществующую связь!");
                     }
+
                 } else {
                     System.out.println("Попытка удалить связь с несуществующей вершиной: " + vertex + "-" + edge + "!");
                 }
@@ -142,22 +169,12 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
             System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
     }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////// based
     @Override
-    public int inVertexDegree(String vertex) {
+    public int vertexDegree(String vertex) {
         if (this.isNormal) {
             if (this.graph.containsKey(vertex)) {
-                int inDegree = 0;
-
-                for (String key : this.graph.keySet()) {
-                    if (key.equals("vertex")) {
-                        continue;
-                    }
-                    if (this.graph.get(vertex).contains(vertex)) {
-                        inDegree += 1;
-                    }
-                }
-                return inDegree;
+                return this.graph.get(vertex).size();
             } else {
                 System.out.println("В графе нет вершины: " + vertex + "!");
                 return -1;
@@ -165,6 +182,18 @@ public class OrientedUnWeightedGraph extends DirecredGraph{
         } else {
             System.out.println("Граф был некорректно создан, пресоздайте его!");
             return -1;
+        }
+    }
+    @Override
+    public void printVertexesDegree() {
+        if (this.isNormal) {
+            System.out.println("\nСтепени вершины графа:");
+            for (String key : this.graph.keySet()) {
+                System.out.println(key + " - " + vertexDegree(key));
+            }
+            System.out.println();
+        } else {
+            System.out.println("Граф был некорректно создан, пресоздайте его!");
         }
     }
 

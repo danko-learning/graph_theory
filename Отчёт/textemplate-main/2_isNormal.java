@@ -1,0 +1,1 @@
+protected boolean isNormal = true;

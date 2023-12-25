@@ -6,7 +6,7 @@ import java.util.List;
 public class G {
 
     private String type;
-    private UndirectedGraph uG;
+    private UndirectedUnweightedGraph uG;
     private OrientedUnWeightedGraph oUWG;
     private OrientedWeightedGraph oWG;
 
@@ -14,7 +14,7 @@ public class G {
     public G(String type) {
         if (type.equals("undirected graph")) {
             this.type = type;
-            uG = new UndirectedGraph();
+            uG = new UndirectedUnweightedGraph();
             oUWG = null;
             oWG = null;
         } else if (type.equals("oriented unweighted graph")) {
@@ -34,7 +34,7 @@ public class G {
     public G(String type, HashMap<String, List<String>> graph) {
         if (type.equals("undirected graph")) {
             this.type = type;
-            this.uG = new UndirectedGraph(graph);
+            this.uG = new UndirectedUnweightedGraph(graph);
             oUWG = null;
             oWG = null;
         } else if (type.equals("oriented unweighted graph")) {
@@ -51,9 +51,9 @@ public class G {
             System.out.println("Такой тип графа не поддерживается!");
         }
     }
-    public G(UndirectedGraph graph) {
+    public G(UndirectedUnweightedGraph graph) {
         this.type = "undirected graph";
-        this.uG = new UndirectedGraph(graph.getGraph());
+        this.uG = new UndirectedUnweightedGraph(graph.getGraph());
         oUWG = null;
         oWG = null;
     }
@@ -85,7 +85,7 @@ public class G {
             System.out.println("Граф не был создан!");
         }
     }
-    public void setGraph(UndirectedGraph graph) {
+    public void setGraph(UndirectedUnweightedGraph graph) {
         if (this.type.equals("undirected graph")) {
             this.uG.setGraph(graph.getGraph());
         } else {
